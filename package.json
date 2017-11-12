@@ -1,0 +1,25 @@
+{
+  "name": "directory-jsonizer",
+  "version": "0.1.0",
+  "description": "A small library to convert a directory and its all descendant file contents into a single JSON string",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "NODE_PATH=./ mocha test/test.js",
+    "eslint": "eslint --fix src/**/*.js"
+  },
+  "keywords": [
+    "directory",
+    "json",
+    "base64"
+  ],
+  "author": "AnnPin",
+  "license": "MIT",
+  "dependencies": {
+    "isbinaryfile": "^3.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "mocha": "^4.0.1",
+    "power-assert": "^1.4.4"
+  }
+}
