@@ -79,12 +79,12 @@ As a result, you will obtain the JSON string below containing all contents in `s
                 {
                     "name": "euc.js", 
                     "type": "binary",
-                    "content": "Y29uc29sZS5sb2coJ0VVQ8q4u/rO8ycpOwo=" (Base64 encoded)
+                    "content": "Y29uc29sZS5sb2coJ0VVQ8q4u/rO8ycpOwo= (Base64 encoded)"
                 }, 
                 {
                     "name": "sjis.js", 
                     "type": "binary",
-                    "content": "Y29uc29sZS5sb2coJ4NWg3SDZ0pJU5W2jpqX8ScpOwo=" (Base64 encoded)
+                    "content": "Y29uc29sZS5sb2coJ4NWg3SDZ0pJU5W2jpqX8ScpOwo= (Base64 encoded)"
                 }, 
                 {
                     "name": "utf8.js", 
@@ -105,7 +105,7 @@ As a result, you will obtain the JSON string below containing all contents in `s
                 {
                     "name": "lena_std.tif", 
                     "type": "binary",
-                    "content": "TU0AKgAMAAjiiX3iiX3fiYXfiIDiinjigXTkin..." (Base64 encoded)
+                    "content": "TU0AKgAMAAjiiX3iiX3fiYXfiIDiinjigXTkin... (Base64 encoded)"
                 }, 
                 {
                     "name": "sym-foo.js", 
