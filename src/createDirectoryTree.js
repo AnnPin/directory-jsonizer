@@ -4,8 +4,9 @@ var fs = require('fs');
 var path = require('path');
 
 var createDirectoryTree = function(obj, saveIn, saveRootAs, callback) {
+    var rootName = saveRootAs ? saveRootAs : obj.name;
     var __createDirectoryTree = function(entry, saveDirPath, isRoot, done) {
-        var absSavePath = path.resolve(saveDirPath, isRoot ? saveRootAs : entry.name);
+        var absSavePath = path.resolve(saveDirPath, isRoot ? rootName : entry.name);
 
         if (entry.type === 'directory') {
             fs.mkdir(absSavePath, function() {

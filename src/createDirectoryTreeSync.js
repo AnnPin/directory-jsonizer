@@ -4,8 +4,9 @@ var fs = require('fs');
 var path = require('path');
 
 var createDirectoryTreeSync = function(obj, saveIn, saveRootAs) {
+    var rootName = saveRootAs ? saveRootAs : obj.name;
     var __createDirectoryTreeSync = function(entry, saveDirPath, isRoot) {
-        var absSavePath = path.resolve(saveDirPath, isRoot ? saveRootAs : entry.name);
+        var absSavePath = path.resolve(saveDirPath, isRoot ? rootName : entry.name);
         switch (entry.type) {
         case 'directory':
             if (!fs.existsSync(absSavePath)) {
