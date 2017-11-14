@@ -13,6 +13,10 @@
     "base64"
   ],
   "author": "AnnPin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AnnPin/directory-jsonizer.git"
+  },
   "license": "MIT",
   "dependencies": {
     "is-utf8": "^0.2.1"
