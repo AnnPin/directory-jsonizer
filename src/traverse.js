@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var isBinaryFile = require('isbinaryfile');
+var isUtf8 = require('is-utf8');
 
 var __traverse = function(targetName, dirPath, done) {
     // get absolute path of target
@@ -42,30 +42,35 @@ var __traverse = function(targetName, dirPath, done) {
                     });
                 });
             });
-        } else {
-            isBinaryFile(absPath, function (err, isUtf8) {
+        } else if (stat && stat.isSymbolicLink()) {
+            fs.readlink(absPath, function (err, linkData) {
+                if (err) throw done(err);
+                done(null, {
+                    name: targetName,
+                    type: 'symlink',
+                    content: linkData
+                });
+            });
+        } else if (stat && stat.isFile()) {
+            fs.readFile(absPath, function (err, buffer) {
                 if (err) throw done(err);
 
-                if (isUtf8) {
-                    fs.readFile(absPath, 'base64', function (err, base64Data) {
-                        if (err) throw done(err);
-                        done(null, {
-                            name: targetName,
-                            type: 'binary',
-                            content: base64Data
-                        });
+                if (isUtf8(buffer)) {
+                    done(null, {
+                        name: targetName,
+                        type: 'text',
+                        content: buffer.toString('utf-8')
                     });
                 } else {
-                    fs.readFile(absPath, 'utf-8', function (err, textData) {
-                        if (err) throw done(err);
-                        done(null, {
-                            name: targetName,
-                            type: 'text',
-                            content: textData
-                        });
+                    done(null, {
+                        name: targetName,
+                        type: 'binary',
+                        content: buffer.toString('base64')
                     });
                 }
             });
+        } else {
+            throw done(new Error('Unsupported file type:' + absPath));
         }
     });
 };
@@ -79,4 +84,4 @@ var traverse = function(targetPath, done) {
     );
 };
 
-module.exports.traverse = traverse;
+module.exports = traverse;

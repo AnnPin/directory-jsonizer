@@ -12,11 +12,11 @@ describe('DirectoryJsonizer', function() {
             DirectoryJsonizer.directoryToObject(dir, function(err, result) {
                 assert(err === null);
                 assert(result.name === 'sample');
-                var con = JSON.stringify(result);
 
-                fs.writeFile('xxx.json', con, 'utf8', function(err) {
-                    console.log('text out', err);
-                });
+                // var con = JSON.stringify(result);
+                // fs.writeFile('xxx.json', con, 'utf8', function(err) {
+                //     console.log('text out', err);
+                // });
 
                 done();
             });
@@ -26,7 +26,7 @@ describe('DirectoryJsonizer', function() {
             var dir = './test/sample';
             DirectoryJsonizer.directoryToObject(dir, function(err, result) {
                 assert(err === null);
-                assert(result.content.length === 6);
+                assert(result.content.length === fs.readdirSync(dir).length);
                 done();
             });
         });
@@ -47,14 +47,14 @@ describe('DirectoryJsonizer', function() {
             var result = DirectoryJsonizer.directoryToObjectSync(dir);
             assert(result.name === 'sample');
 
-            var con = JSON.stringify(result);
-            fs.writeFileSync('xxx2.json', con, 'utf8');
+            // var con = JSON.stringify(result);
+            // fs.writeFileSync('xxx2.json', con, 'utf8');
         });
 
         it('should contains all children in its content', function() {
             var dir = './test/sample';
             var result = DirectoryJsonizer.directoryToObjectSync(dir);
-            assert(result.content.length === 6);
+            assert(result.content.length === fs.readdirSync(dir).length);
         });
 
         it('should return the object and its name property is its name (file)', function () {
@@ -68,31 +68,9 @@ describe('DirectoryJsonizer', function() {
         it('', function() {
             var dir = './test/sample';
             var result = DirectoryJsonizer.directoryToObjectSync(dir)
+            var outdir = './test';
 
-            var outdir = './test/result2';
-            var traverse = function(obj, dirPath, isRoot) {
-                var outPath = path.resolve(dirPath, isRoot ? '' : obj.name);
-                console.log(outPath);
-
-                switch (obj.type) {
-                    case 'directory':
-
-                        if (!fs.existsSync(outPath)) {
-                            fs.mkdirSync(outPath);
-                        }
-                        obj.content.forEach(function(child) {
-                            traverse(child, outPath, false);
-                        });
-                        break;
-                    case 'binary':
-                        var decoded = new Buffer(obj.content, 'base64');
-                        fs.writeFileSync(outPath, decoded);
-                        break;
-                    default:
-                        fs.writeFileSync(outPath, obj.content, 'utf8');
-                }
-            };
-            traverse(result, outdir, true);
+            DirectoryJsonizer.createDirectoryFromJson(JSON.stringify(result), outdir, 'result');
         });
     });
 });

@@ -15,7 +15,7 @@
   "author": "AnnPin",
   "license": "MIT",
   "dependencies": {
-    "isbinaryfile": "^3.0.2"
+    "is-utf8": "^0.2.1"
   },
   "devDependencies": {
     "eslint": "^4.11.0",

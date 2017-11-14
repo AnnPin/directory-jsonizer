@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var isBinaryFile = require('isbinaryfile');
+var isUtf8 = require('is-utf8');
 
 var __traverseSync = function(targetName, dirPath) {
     // get absolute path of target
@@ -18,22 +18,30 @@ var __traverseSync = function(targetName, dirPath) {
                 return __traverseSync(file, absPath);
             })
         };
-    }
-
-    if (isBinaryFile.sync(absPath)) {
-        var base64Data = fs.readFileSync(absPath, 'base64');
+    } else if (stat && stat.isSymbolicLink()) {
+        var linkData = fs.readlinkSync(absPath);
         return {
             name: targetName,
-            type: 'binary',
-            content: base64Data
+            type: 'symlink',
+            content: linkData
         };
+    } else if (stat && stat.isFile()) {
+        var buffer = fs.readFileSync(absPath);
+        if (isUtf8(buffer)) {
+            return {
+                name: targetName,
+                type: 'text',
+                content: buffer.toString('utf-8')
+            };
+        } else {
+            return {
+                name: targetName,
+                type: 'binary',
+                content: buffer.toString('base64')
+            };
+        }
     } else {
-        var textData = fs.readFileSync(absPath, 'utf-8');
-        return {
-            name: targetName,
-            type: 'text',
-            content: textData
-        };
+        throw new Error('Unsupported file type:' + absPath);
     }
 };
 
@@ -45,4 +53,4 @@ var traverseSync = function(targetPath) {
     );
 };
 
-module.exports.traverseSync = traverseSync;
+module.exports = traverseSync;
