@@ -1,4 +1,4 @@
-directory-jsonizer
+directory-jsonizer [![npm version](https://badge.fury.io/js/directory-jsonizer.svg)](https://www.npmjs.com/package/directory-jsonizer)
 ==================
 
 A small library to convert all file contents in a directory and its all subdirectories into a single JSON string.
